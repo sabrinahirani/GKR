@@ -1,3 +1,4 @@
 pub mod field;
 pub mod circuit;
-pub mod multilinear;
+pub mod polynomial;
+pub mod transcript;
