@@ -36,7 +36,7 @@ impl MultilinearExtension {
         for i in 0..mid {
             let eval_at_0 = self.evaluations[i]; // x = 0
             let eval_at_1 = self.evaluations[mid + i]; // x = 1
-            // (1 - r) * top + r * bottom
+            // (1 - r) * eval_at_0 + r * eval_at_1
             // note that if r = 0 then x = 0 and if r = 1 then x = 1 so multilinear extension
             new_evaluations.push(eval_at_0 + r * (eval_at_1 - eval_at_0));
         }
