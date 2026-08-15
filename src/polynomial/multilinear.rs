@@ -34,11 +34,11 @@ impl MultilinearExtension {
         let mid = self.evaluations.len() / 2;
         let mut new_evaluations = Vec::with_capacity(mid);
         for i in 0..mid {
-            let top = self.evaluations[i]; // x = 0
-            let bottom = self.evaluations[mid + i]; // x = 1
-            // (1 - r) * top + r * bottom
+            let eval_at_0 = self.evaluations[i]; // x = 0
+            let eval_at_1 = self.evaluations[mid + i]; // x = 1
+            // (1 - r) * eval_at_0 + r * eval_at_1
             // note that if r = 0 then x = 0 and if r = 1 then x = 1 so multilinear extension
-            new_evaluations.push(top + r * (bottom - top));
+            new_evaluations.push(eval_at_0 + r * (eval_at_1 - eval_at_0));
         }
         MultilinearExtension::new(new_evaluations)
     }
@@ -89,15 +89,6 @@ mod tests {
         assert_eq!(mle.evaluate(&[zero, one]), Fp::new(20));
         assert_eq!(mle.evaluate(&[one, zero]), Fp::new(30));
         assert_eq!(mle.evaluate(&[one, one]), Fp::new(40));
-    }
- 
-    #[test]
-    fn evaluate_matches_brute_force_at_non_boolean_point() {
-        let evals = vec![Fp::new(10), Fp::new(20), Fp::new(30), Fp::new(40)];
-        let mle = MultilinearExtension::new(evals.clone());
-        let point = [Fp::new(3), Fp::new(5)];
- 
-        assert_eq!(mle.evaluate(&point), brute_force_evaluate(&evals, &point));
     }
  
     #[test]

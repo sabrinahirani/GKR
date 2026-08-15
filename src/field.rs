@@ -45,6 +45,21 @@ impl Fp {
         }
     }
 
+    pub fn to_bytes(&self) -> [u8; 8] {
+        self.0.to_le_bytes()
+    }
+
+    pub fn from_bytes_reduce(bytes: &[u8]) -> Self {
+        let mut acc = Fp::zero();
+        // treat bytes as base-256 digits so:
+        let base = Fp::new(256);
+        // analogous to horners method
+        for &b in bytes {
+            acc = acc * base + Fp::new(b as u64);
+        }
+        acc
+    }
+
 }
 
 impl From<u64> for Fp {
